@@ -165,10 +165,6 @@ while true ; do
 	esac
 done
 
-usage
-echo $ARCHIVE
-exit
-
 # Validate commandline arguments
 CMD=$1
 case $CMD in # Ensure valid command
