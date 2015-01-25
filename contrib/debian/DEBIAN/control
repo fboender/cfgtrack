@@ -1,0 +1,13 @@
+Package: cfgtrack
+Version: %%VERSION%%
+Maintainer: Ferry Boender <ferry.boender@gmail.com>
+Section: utils
+Priority: optional
+Architecture: all
+Depends: diffutils
+Description: Track and report diffs in files between invocations.
+ cfgtrack lets you add directories and files to a tracking list by keeping a
+ seperate copy of the file in a tracking directory. When invoked with the
+ 'compare' command, it outputs a Diff of any changes made in the configuration
+ file since the last time you invoked with the 'compare' command. It then
+ automatically updates the tracked file.

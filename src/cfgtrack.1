@@ -1,0 +1,69 @@
+.\" Process this file with
+.\" groff -man -Tascii foo.1
+.\"
+.TH CFGTRACK 1 "JANUARI 2014" Linux "User Manuals"
+
+.SH NAME
+cfgtrack \- track and report diffs in files between invocations.
+.SH SYNOPSIS
+.B cfgtrack
+.I track
+<path>
+
+.B cfgtrack
+.I untrack
+<path>
+
+.B cfgtrack
+[-a]
+.I compare
+
+.SH DESCRIPTION
+.B Cfgtrack
+lets you add directories and files to a tracking list by keeping a seperate copy of the file in a tracking directory. When invoked with the 'compare' command, it outputs a Diff of any changes made in the configuration file since the last time you invoked with the 'compare' command. It then automatically updates the tracked file.
+
+.SH OPTIONS
+.IP "track <path>"
+Add <path> to the list of files to be tracked. <path> must be an absolute path to a file or directory.
+.IP "untrack <path>"
+Remove <path> from the list of files to be tracked. <path> must be an absolute path to a file or directory.
+.IP "compare"
+Show the difference (in diff(1) format) in files being tracked since the last time "compare" was called.
+.IP "-a, --archive"
+Store the diff in the archive directory, if there were any changes.
+.IP "-h, --help"
+Show this help message and exit
+
+.SH EXAMPLES
+.B cfgtrack track /etc/apache/
+.RS
+Start tracking all the files under /etc/apache/
+.RE
+
+
+.B cfgtrack untrack /etc/apache/ports.conf.dpkg-dist
+.RS
+Stop tracking changes to the file /etc/apache/ports.conf.dpkg-dist
+.RE
+
+.B cfgtrack -a compare
+.RS
+Compare all the tracked files and, if differences are found, create an archive file with those differences in the archive directory and show the differences on STDOUT.
+.RE
+
+
+.SH FILES
+.I /var/lib/cfgtrack/tracked
+.RS
+Location where copies of the tracked files are stored for comparison.
+.RE
+
+.I /var/lib/cfgtrack/archive
+.RS
+Location for the archived diff files.
+.RE
+
+.SH COPYRIGHT
+Copyright 2015 Ferry Boender <ferry.boender@gmail.com>
+
+cfgtrack is released under the MIT License.

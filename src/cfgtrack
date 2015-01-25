@@ -1,0 +1,179 @@
+#!/bin/sh
+
+#
+# Copyright (c) 2015 Ferry Boender <ferry.boender@gmail.com>
+#
+# Released under the MIT license:
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+TRACK_DIR=/var/lib/cfgtrack/tracking
+ARCHIVE_DIR=/var/lib/cfgtrack/archive
+VERSION=0.1
+AUTHOR="Ferry Boender <ferry.boender@gmail.com>"
+
+#
+# Usage
+#
+usage() {
+    echo "cfgtrack - Track and report diffs in files between invocations\n"
+    echo "$0 track <path>    # Start tracking file or dir" >&2
+    echo "$0 untrack <path>  # Stop tracking file or dir" >&2
+    echo "$0 [-a] compare    # Compare tracked files" >&2
+    echo
+    echo "  -a, --archive    Store diffs in an archive dir"
+    echo
+    echo "By $AUTHOR, version: $VERSION. Released under the MIT license."
+    exit 1
+}
+
+#
+# Write error to STDERR and exit
+#
+err() {
+    echo $* >&2
+    exit 2
+}
+
+#
+# Add a path or file to the tracking list
+#
+track() {
+    P=$1
+    if [ $(echo $P | head -c1) \!= '/' ]; then
+        err "Path must be absolute (start with /)"
+    fi
+    cp -ar --parents $P $TRACK_DIR/ || exit $?
+    echo "Now tracking $P"
+}
+
+#
+# Remove a path or file from the tracking list
+#
+untrack() {
+    P=$1
+    if [ $(echo $P | head -c1) \!= '/' ]; then
+        err "Path must be absolute (start with /)"
+    fi
+    UNTRACK="${1#/}" # Strip off leading '/' to prevent disaster
+    if [ -z "$UNTRACK" ]; then
+        err "Empty untracking path specified"
+    fi
+    # $TRACK_DIR is checked to never be empty or '/', so this rm -rf should be
+    # safe.
+    rm -rf $TRACK_DIR/$UNTRACK
+    echo "No longer tracking $P"
+}
+
+#
+# Output diff's for files and paths being tracked.
+#
+compare() {
+    ARCHIVE=$1
+
+    # Go through all the files being tracked and diff them with their original
+    # version
+    TMP_FILE=$(mktemp)
+    cd $TRACK_DIR
+    find . -type f | while read -r file; do 
+        diff -Naur "$file" "/$file" >> $TMP_FILE
+        RET_CODE=$?
+        if [ $RET_CODE -eq 1 ]; then
+            # File has changed. Store the new file in the tracking dir.
+            cp -a "${file#.}" "$file"
+        fi
+    done;
+
+    if [ -s $TMP_FILE ]; then
+        if [ -n "$ARCHIVE" ]; then
+            ARCHIVE_FILE=$(date +"%Y-%m-%d_%H:%M.diff")
+            cp $TMP_FILE $ARCHIVE_DIR/$ARCHIVE_FILE
+        fi
+
+        cat $TMP_FILE
+    fi
+    rm $TMP_FILE
+}
+
+# Validate settings
+if [ $TRACK_DIR = '/' ]; then
+    err "Tracking dir $TRACK_DIR cannot be /"
+fi
+if [ \! -d $TRACK_DIR ]; then
+    mkdir -p $TRACK_DIR || err "Can't create tracking dir"
+fi
+if [ \! -d $ARCHIVE_DIR ]; then
+    mkdir -p $ARCHIVE_DIR || err "Can't create archive dir"
+fi
+
+# Handle options
+while true ; do
+	case "$1" in
+		-a|--archive)
+            ARCHIVE="1"
+            shift 1
+            ;;
+		-h|--help)
+            usage
+            break
+            ;;
+		--)
+            shift 1
+            break
+            ;;
+        track)
+            if [ -z "$2" ]; then
+                usage
+            fi
+            track $2
+            exit $?
+            break
+            ;;
+        untrack)
+            if [ -z "$2" ]; then
+                usage
+            fi
+            untrack $2
+            exit $?
+            break
+            ;;
+        compare)
+            compare $ARCHIVE
+            exit $?
+            break
+            ;;
+		*)
+            usage;
+            break
+            ;;
+	esac
+done
+
+usage
+echo $ARCHIVE
+exit
+
+# Validate commandline arguments
+CMD=$1
+case $CMD in # Ensure valid command
+    compare) compare; exit $?;;
+    track) track $2 ;;
+    untrack) untrack $2 ;;
+    *) usage ;;
+esac
