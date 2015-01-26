@@ -53,11 +53,15 @@ directory.
 
 1. Download the .tar.gz file
 2. Unpack it with `tar -vxzf cfgtrack-*.tar.gz
-3. Copy the `cfgtrack` script to a bin path: `cp cfgtrack-\*/cfgtrack /usr/local/bin
+3. Change to the cfgtrack directory: `cd cfgtrack*`
+3. Install it on your system with `sudo make install`
+3. Uninstall it from your system with `sudo make uninstall`
 
 ### Debian / Ubuntu / Linux Mint installation
 
-1. Download the 
+1. Download the .deb file: 
+2. Install the package: `sudo dpkg -i cfgtrack*.deb`
+3. To uninstall: `apt-get purge cfgtrack`
 
 
 Usage
@@ -87,3 +91,4 @@ To stop tracking changes to a single file
 
     $ sudo cfgtrack untrack /etc/apt/apt.conf.d/50unattended-upgrade
 
+See also `man 1 cfgtrack`

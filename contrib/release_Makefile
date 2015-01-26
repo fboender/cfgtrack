@@ -1,0 +1,7 @@
+install:
+	cp cfgtrack /sbin/cfgtrack
+	gzip -c cfgtrack.1 > /usr/share/man/man1/cfgtrack.1.gz
+
+uninstall:
+	rm /usr/share/man/man1/cfgtrack.1.gz
+	rm /sbin/cfgtrack

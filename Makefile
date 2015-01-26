@@ -15,10 +15,11 @@ release: release_deb
 
 	rm -rf $(PROG)-$(REL_VERSION)
 	mkdir $(PROG)-$(REL_VERSION)
-	cp src/cfgtrack $(PROG)-$(REL_VERSION)
-	cp src/cfgtrack.1 $(PROG)-$(REL_VERSION)
-	cp LICENSE.txt $(PROG)-$(REL_VERSION)
-	cp README.md $(PROG)-$(REL_VERSION)
+	cp src/cfgtrack $(PROG)-$(REL_VERSION)/
+	cp src/cfgtrack.1 $(PROG)-$(REL_VERSION)/
+	cp LICENSE.txt $(PROG)-$(REL_VERSION)/
+	cp README.md $(PROG)-$(REL_VERSION)/
+	cp contrib/release_Makefile $(PROG)-$(REL_VERSION)/Makefile
 
 	zip -r $(PROG)-$(REL_VERSION).zip $(PROG)-$(REL_VERSION)
 	tar -vczf $(PROG)-$(REL_VERSION).tar.gz  $(PROG)-$(REL_VERSION)
