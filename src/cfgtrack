@@ -96,7 +96,12 @@ compare() {
         RET_CODE=$?
         if [ $RET_CODE -eq 1 ]; then
             # File has changed. Store the new file in the tracking dir.
-            cp -a "${file#.}" "$file"
+            if [ \! -e "${file#.}" ]; then
+                # File no longer exists, remove it from the tracking dir
+                rm "$file"
+            else
+                cp -a "${file#.}" "$file"
+            fi
         fi
     done;
 
