@@ -33,6 +33,7 @@ AUTHOR="Ferry Boender <ferry.boender@gmail.com>"
 #
 usage() {
     echo "cfgtrack - Track and report diffs in files between invocations\n"
+    echo "$0 list                        # List files and dirs being tracked" >&2
     echo "$0 track <path>                # Start tracking file or dir" >&2
     echo "$0 untrack <path>              # Stop tracking file or dir" >&2
     echo "$0 [-a] [-m <email>] compare   # Compare tracked files" >&2
@@ -64,6 +65,14 @@ check_mailx() {
         fi
         exit 2
     fi
+}
+
+#
+# List files and dirs being tracked
+# 
+list() {
+    cd $TRACK_DIR
+    find . -type f | sed "s/^\.//"
 }
 
 #
@@ -171,6 +180,11 @@ while true ; do
             ;;
         --)
             shift 1
+            break
+            ;;
+        list)
+            list
+            exit $?
             break
             ;;
         track)
