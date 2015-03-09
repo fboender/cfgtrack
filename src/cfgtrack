@@ -155,8 +155,8 @@ fi
 
 # Handle options
 while true ; do
-	case "$1" in
-		-a|--archive)
+    case "$1" in
+        -a|--archive)
             ARCHIVE="1"
             shift 1
             ;;
@@ -165,11 +165,11 @@ while true ; do
             MAIL_TO=$2
             shift 2
             ;;
-		-h|--help)
+        -h|--help)
             usage
             break
             ;;
-		--)
+        --)
             shift 1
             break
             ;;
@@ -194,11 +194,11 @@ while true ; do
             exit $?
             break
             ;;
-		*)
+        *)
             usage;
             break
             ;;
-	esac
+    esac
 done
 
 # Validate commandline arguments
