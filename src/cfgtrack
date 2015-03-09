@@ -200,12 +200,3 @@ while true ; do
             ;;
     esac
 done
-
-# Validate commandline arguments
-CMD=$1
-case $CMD in # Ensure valid command
-    compare) compare; exit $?;;
-    track) track $2 ;;
-    untrack) untrack $2 ;;
-    *) usage ;;
-esac
