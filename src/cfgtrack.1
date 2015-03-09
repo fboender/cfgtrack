@@ -7,6 +7,9 @@
 cfgtrack \- track and report diffs in files between invocations.
 .SH SYNOPSIS
 .B cfgtrack
+.I list
+
+.B cfgtrack
 .I track
 <path>
 
@@ -15,22 +18,28 @@ cfgtrack \- track and report diffs in files between invocations.
 <path>
 
 .B cfgtrack
-[-a]
+[-s] [-a] [-m "<email>[ <email>]"]
 .I compare
 
 .SH DESCRIPTION
 .B Cfgtrack
-lets you add directories and files to a tracking list by keeping a seperate copy of the file in a tracking directory. When invoked with the 'compare' command, it outputs a Diff of any changes made in the configuration file since the last time you invoked with the 'compare' command. It then automatically updates the tracked file.
+lets you add files to a tracking list by keeping a seperate copy of the file in a tracking directory. When invoked with the 'compare' command, it outputs a Diff of any changes made in the configuration file since the last time you invoked with the 'compare' command. It then automatically updates the tracked file.
 
 .SH OPTIONS
+.IP "list"
+List the files currently being tracked.
 .IP "track <path>"
-Add <path> to the list of files to be tracked. <path> must be an absolute path to a file or directory.
+Add <path> to the list of files to be tracked. <path> must be an absolute path to a file or directory. If <path> is a directory, all files under that directory will be tracked recursively.
 .IP "untrack <path>"
 Remove <path> from the list of files to be tracked. <path> must be an absolute path to a file or directory.
 .IP "compare"
 Show the difference (in diff(1) format) in files being tracked since the last time "compare" was called.
+.IP "-s, --silent"
+Do not output the diff on the console.
 .IP "-a, --archive"
 Store the diff in the archive directory, if there were any changes.
+.IP "-m, --mail <email>"
+In case of changes in tracked files, send an email to <email>. <email> may be multiple address, in which case they must be separated by a space and the whole list must be enclosed in quotes.
 .IP "-h, --help"
 Show this help message and exit
 
@@ -46,9 +55,9 @@ Start tracking all the files under /etc/apache/
 Stop tracking changes to the file /etc/apache/ports.conf.dpkg-dist
 .RE
 
-.B cfgtrack -a compare
+.B cfgtrack -a -m "admin@example.com" compare
 .RS
-Compare all the tracked files and, if differences are found, create an archive file with those differences in the archive directory and show the differences on STDOUT.
+Compare all the tracked files and, if differences are found, create an archive file with those differences in the archive directory and show the differences on STDOUT. Also send an email with the changes to admin@example.com
 .RE
 
 

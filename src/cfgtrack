@@ -147,6 +147,11 @@ compare() {
             echo $BODY | /usr/bin/mailx -A /tmp/$ATTACH_FNAME -s "cfgtrack @ $(hostname -f): Changes found" $MAIL_TO
             rm /tmp/$ATTACH_FNAME
         fi
+
+        if [ -z "$SILENT" ]; then
+            # Not --silent
+            cat $TMP_FILE
+        fi
     fi
     rm $TMP_FILE
 }
@@ -167,6 +172,10 @@ while true ; do
     case "$1" in
         -a|--archive)
             ARCHIVE="1"
+            shift 1
+            ;;
+        -s|--silent)
+            SILENT="1"
             shift 1
             ;;
         -m|--mail)
