@@ -33,11 +33,12 @@ AUTHOR="Ferry Boender <ferry.boender@gmail.com>"
 #
 usage() {
     echo "cfgtrack - Track and report diffs in files between invocations\n"
-    echo "$0 track <path>    # Start tracking file or dir" >&2
-    echo "$0 untrack <path>  # Stop tracking file or dir" >&2
-    echo "$0 [-a] compare    # Compare tracked files" >&2
+    echo "$0 track <path>                # Start tracking file or dir" >&2
+    echo "$0 untrack <path>              # Stop tracking file or dir" >&2
+    echo "$0 [-a] [-m <email>] compare   # Compare tracked files" >&2
     echo
-    echo "  -a, --archive    Store diffs in an archive dir"
+    echo "  -a, --archive       Store diffs in an archive dir"
+    echo "  -m, --mail <email>  Send diffs to email address"
     echo
     echo "By $AUTHOR, version: $VERSION. Released under the MIT license."
     exit 1
@@ -49,6 +50,20 @@ usage() {
 err() {
     echo $* >&2
     exit 2
+}
+
+#
+# Verify that GNU mailx is installed.
+#
+check_mailx() {
+    mailx -V 2>/dev/null | grep "GNU Mail" >/dev/null
+    if [ $? -ne 0 ]; then
+        echo "You do not have GNU mailx installed. Please install it."
+        if [ -x /usr/bin/apt-get ]; then
+            echo "\n  apt-get install mailutils\n"
+        fi
+        exit 2
+    fi
 }
 
 #
@@ -111,7 +126,16 @@ compare() {
             cp $TMP_FILE $ARCHIVE_DIR/$ARCHIVE_FILE
         fi
 
-        cat $TMP_FILE
+        if [ -n "$MAIL_TO" ]; then
+            # Send the diff to email recipient(s)
+            ATTACH_FNAME="$(hostname -f)_$(date +"%Y-%m-%d_%H:%M.diff")"
+            cp $TMP_FILE /tmp/$ATTACH_FNAME
+            BODY="cfgtrack running at $(hostname -f) has found changes in tracked\n"
+            BODY="${BODY}files.\n\nPlease see the attached file for a list of changes \n"
+            BODY="${BODY}in Diff format\n"
+            echo $BODY | /usr/bin/mailx -A /tmp/$ATTACH_FNAME -s "cfgtrack @ $(hostname -f): Changes found" $MAIL_TO
+            rm /tmp/$ATTACH_FNAME
+        fi
     fi
     rm $TMP_FILE
 }
@@ -133,6 +157,11 @@ while true ; do
 		-a|--archive)
             ARCHIVE="1"
             shift 1
+            ;;
+        -m|--mail)
+            check_mailx
+            MAIL_TO=$2
+            shift 2
             ;;
 		-h|--help)
             usage
