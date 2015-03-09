@@ -107,9 +107,9 @@ compare() {
     TMP_FILE=$(mktemp)
     cd $TRACK_DIR
     find . -type f | while read -r file; do 
-        diff -Naur "$file" "/$file" >> $TMP_FILE
+        diff -Nur "$file" "/$file" >> $TMP_FILE
         RET_CODE=$?
-        if [ $RET_CODE -eq 1 ]; then
+        if [ $RET_CODE -eq 1 ] || [ $RET_CODE -eq 2 ]; then
             # File has changed. Store the new file in the tracking dir.
             if [ \! -e "${file#.}" ]; then
                 # File no longer exists, remove it from the tracking dir
