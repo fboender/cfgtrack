@@ -120,8 +120,10 @@ compare() {
         fi
     done;
 
+    # Were there any changes?
     if [ -s $TMP_FILE ]; then
         if [ -n "$ARCHIVE" ]; then
+            # Store the diff in the archive
             ARCHIVE_FILE=$(date +"%Y-%m-%d_%H:%M.diff")
             cp $TMP_FILE $ARCHIVE_DIR/$ARCHIVE_FILE
         fi
