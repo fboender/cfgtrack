@@ -16,6 +16,7 @@ release: release_deb
 	rm -rf $(PROG)-$(REL_VERSION)
 	mkdir $(PROG)-$(REL_VERSION)
 	cp src/cfgtrack $(PROG)-$(REL_VERSION)/
+	cp src/cfgtrack_mail $(PROG)-$(REL_VERSION)/
 	cp src/cfgtrack.1 $(PROG)-$(REL_VERSION)/
 	cp LICENSE.txt $(PROG)-$(REL_VERSION)/
 	cp README.md $(PROG)-$(REL_VERSION)/
@@ -36,6 +37,7 @@ release_deb:
 	cp README.md rel_deb/usr/share/doc/$(PROG)
 	cp src/$(PROG) rel_deb/usr/bin/$(PROG)
 	cp src/$(PROG).1 rel_deb/usr/share/man/man1
+	cp src/cfgtrack_mail rel_deb/usr/bin/
 	cp -ar contrib/debian/DEBIAN rel_deb/
 
 	# Bump version numbers
