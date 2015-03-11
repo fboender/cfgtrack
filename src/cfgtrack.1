@@ -60,6 +60,14 @@ Stop tracking changes to the file /etc/apache/ports.conf.dpkg-dist
 Compare all the tracked files and, if differences are found, create an archive file with those differences in the archive directory and show the differences on STDOUT. Also send an email with the changes to admin@example.com
 .RE
 
+.SH LIMITATIONS
+
+cfgtrack does not track file attribute changes.
+
+cfgtrack does not track new files in directories. It only tracks files that existed in directories when they were added. It does track removals of files.
+
+cfgtrack does not track which user made the change.
+
 
 .SH FILES
 .I /var/lib/cfgtrack/tracked
