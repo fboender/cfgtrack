@@ -1,0 +1,103 @@
+#!/usr/bin/python
+
+import os
+import sys
+import select
+import optparse
+import smtplib
+import mimetypes
+from optparse import OptionParser
+from email import encoders
+from email.message import Message
+from email.mime.audio import MIMEAudio
+from email.mime.base import MIMEBase
+from email.mime.image import MIMEImage
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+def send_mail(send_from, send_to, subject, text, files=None,
+              server="127.0.0.1"):
+    # Create the enclosing (outer) message
+    outer = MIMEMultipart()
+    outer['Subject'] = subject
+    outer['To'] = ', '.join(send_to)
+    outer['From'] = send_from
+    outer.preamble = 'Your email reader is not MIME-aware\n'
+
+    first_msg = MIMEText(text)
+    outer.attach(first_msg)
+
+    for path in files:
+        # Guess the content type based on the file's extension.  Encoding
+        # will be ignored, although we should check for simple things like
+        # gzip'd or compressed files.
+        ctype, encoding = mimetypes.guess_type(path)
+        if ctype is None or encoding is not None:
+            # No guess could be made, or the file is encoded (compressed), so
+            # use a generic bag-of-bits type.
+            ctype = 'application/octet-stream'
+        maintype, subtype = ctype.split('/', 1)
+        if maintype == 'text':
+            fp = open(path)
+            # Note: we should handle calculating the charset
+            msg = MIMEText(fp.read(), _subtype=subtype)
+            fp.close()
+        elif maintype == 'image':
+            fp = open(path, 'rb')
+            msg = MIMEImage(fp.read(), _subtype=subtype)
+            fp.close()
+        elif maintype == 'audio':
+            fp = open(path, 'rb')
+            msg = MIMEAudio(fp.read(), _subtype=subtype)
+            fp.close()
+        else:
+            fp = open(path, 'rb')
+            msg = MIMEBase(maintype, subtype)
+            msg.set_payload(fp.read())
+            fp.close()
+            # Encode the payload using Base64
+            encoders.encode_base64(msg)
+        # Set the filename parameter
+        filename = os.path.basename(path)
+        msg.add_header('Content-Disposition', 'attachment', filename=filename)
+        outer.attach(msg)
+
+    # Now send or store the message
+    composed = outer.as_string()
+    s = smtplib.SMTP(server)
+    s.sendmail(send_from, send_to, composed)
+    s.quit()
+
+def error(msg):
+    sys.stderr.write(msg + '\n')
+    sys.exit(1)
+
+if __name__ == '__main__':
+    usage = "usage: echo 'Body' | %prog [options] -t <to> [attachment] [..]"
+    parser = optparse.OptionParser(usage)
+    parser.add_option("-f", "--from", action="store", dest="from_", default=None, help="Send mail from address")
+    parser.add_option("-t", "--to", action="store", dest="to", default=None, help="Comma-separated list of to addresses")
+    parser.add_option("-s", "--subject", action="store", dest="subject", default="", help="Subject of the email")
+    parser.add_option(      "--host", action="store", dest="smtp_host", default="127.0.0.1", help="SMTP server")
+    (options, args) = parser.parse_args()
+
+    if not select.select([sys.stdin,],[],[],0.0)[0]:
+        error("Specify a body by piping it into stdin")
+    if not options.to:
+        error("Must specify one or more recipients with -t/--to")
+    if not options.from_:
+        import socket
+        import getpass
+        options.from_ = '%s@%s' % (socket.getfqdn(), getpass.getuser())
+
+    options.to = options.to.split(',')
+    body = sys.stdin.read()
+
+    send_mail(options.from_,
+              options.to,
+              options.subject,
+              body,
+              files=args,
+              server=options.smtp_host)
+
+

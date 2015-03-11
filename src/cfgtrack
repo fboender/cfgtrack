@@ -54,20 +54,6 @@ err() {
 }
 
 #
-# Verify that GNU mailx is installed.
-#
-check_mailx() {
-    mailx -V 2>/dev/null | grep "GNU Mail" >/dev/null
-    if [ $? -ne 0 ]; then
-        echo "You do not have GNU mailx installed. Please install it."
-        if [ -x /usr/bin/apt-get ]; then
-            echo "\n  apt-get install mailutils\n"
-        fi
-        exit 2
-    fi
-}
-
-#
 # List files and dirs being tracked
 # 
 list() {
@@ -114,6 +100,7 @@ compare() {
     # Go through all the files being tracked and diff them with their original
     # version
     TMP_FILE=$(mktemp)
+    PREV_DIR=$(pwd)
     cd $TRACK_DIR
     find . -type f | while read -r file; do 
         diff -Nur "$file" "/$file" >> $TMP_FILE
@@ -128,6 +115,7 @@ compare() {
             fi
         fi
     done;
+    cd $PREV_DIR
 
     # Were there any changes?
     if [ -s $TMP_FILE ]; then
@@ -144,7 +132,7 @@ compare() {
             BODY="cfgtrack running at $(hostname -f) has found changes in tracked\n"
             BODY="${BODY}files.\n\nPlease see the attached file for a list of changes \n"
             BODY="${BODY}in Diff format\n"
-            echo $BODY | /usr/bin/mailx -A /tmp/$ATTACH_FNAME -s "cfgtrack @ $(hostname -f): Changes found" $MAIL_TO
+            echo $BODY | $(dirname $0)/cfgtrack_mail -t $MAIL_TO -s "cfgtrack @ $(hostname -f): Changes found" /tmp/$ATTACH_FNAME 
             rm /tmp/$ATTACH_FNAME
         fi
 
@@ -179,7 +167,9 @@ while true ; do
             shift 1
             ;;
         -m|--mail)
-            check_mailx
+            if [ \! -x "$(dirname $0)/cfgtrack_mail" ]; then
+                err "cfgtrack_mail not found. Can't send email"
+            fi
             MAIL_TO=$2
             shift 2
             ;;
