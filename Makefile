@@ -1,12 +1,15 @@
 PROG=cfgtrack
 
 install:
-	cp src/cfgtrack /sbin/cfgtrack
-	gzip -c src/cfgtrack.1 > /usr/share/man/man1/cfgtrack.1.gz
+	cp cfgtrack /usr/bin/cfgtrack
+	cp cfgtrack_mail /usr/bin/cfgtrack_mail
+	gzip -c cfgtrack.1 > /usr/share/man/man1/cfgtrack.1.gz
 
 uninstall:
 	rm /usr/share/man/man1/cfgtrack.1.gz
-	rm /sbin/cfgtrack
+	rm /usr/bin/cfgtrack_mail
+	rm /usr/bin/cfgtrack
+	echo "To remove configuration for cfgtrack, rm -rf /var/lib/cfgtrack/"
 
 release: release_deb
 	@echo "Making release for version $(REL_VERSION)"

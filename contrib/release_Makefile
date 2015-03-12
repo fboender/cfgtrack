@@ -7,3 +7,4 @@ uninstall:
 	rm /usr/share/man/man1/cfgtrack.1.gz
 	rm /usr/bin/cfgtrack_mail
 	rm /usr/bin/cfgtrack
+	echo "To remove configuration for cfgtrack, rm -rf /var/lib/cfgtrack/"
