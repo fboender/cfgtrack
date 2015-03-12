@@ -50,7 +50,7 @@ directory.
 ### Manual install
 
 1. Download the .tar.gz file
-2. Unpack it with `tar -vxzf cfgtrack-*.tar.gz
+2. Unpack it with `tar -vxzf cfgtrack-*.tar.gz`
 3. Change to the cfgtrack directory: `cd cfgtrack*`
 4. Install it on your system with `sudo make install`
 5. Uninstall it from your system with `sudo make uninstall`
@@ -65,9 +65,8 @@ If you want to use the mail (-m) option, GNU mailx must be installed. For Debian
 2. Install the package: `sudo dpkg -i cfgtrack*.deb`
 3. To uninstall: `apt-get purge cfgtrack`
 
-If you want to use the mail (-m) option, GNU mailx must be installed. For Debian-derived systems:
-
-  apt-get install mailutils
+If you want to use the mail (-m) option, Python (v2.5+) must be installed.
+Python is available on nearly all unices.
 
 
 Usage
