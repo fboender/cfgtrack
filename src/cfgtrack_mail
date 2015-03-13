@@ -88,7 +88,7 @@ if __name__ == '__main__':
     if not options.from_:
         import socket
         import getpass
-        options.from_ = '%s@%s' % (socket.getfqdn(), getpass.getuser())
+        options.from_ = '%s@%s' % (getpass.getuser(), socket.getfqdn())
 
     options.to = options.to.split(',')
     body = sys.stdin.read()
@@ -99,5 +99,3 @@ if __name__ == '__main__':
               body,
               files=args,
               server=options.smtp_host)
-
-
