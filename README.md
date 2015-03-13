@@ -47,7 +47,16 @@ cfgtrack is written as a straight-forward portable shell script. No special
 installation is required other than downloading and copying the script to a
 directory.
 
-### Manual install
+### Debian / Ubuntu / Linux Mint installation
+
+1. Download the .deb file: 
+2. Install the package: `sudo dpkg -i cfgtrack*.deb`
+3. To uninstall: `apt-get purge cfgtrack`
+
+If you want to use the mail (-m) option, Python (v2.5+) must be installed.
+Python is available on nearly all unices.
+
+### Manual install (Centos / Redhat / Others)
 
 1. Download the .tar.gz file
 2. Unpack it with `tar -vxzf cfgtrack-*.tar.gz`
@@ -58,16 +67,6 @@ directory.
 If you want to use the mail (-m) option, GNU mailx must be installed. For Debian-derived systems:
 
   apt-get install mailutils
-
-### Debian / Ubuntu / Linux Mint installation
-
-1. Download the .deb file: 
-2. Install the package: `sudo dpkg -i cfgtrack*.deb`
-3. To uninstall: `apt-get purge cfgtrack`
-
-If you want to use the mail (-m) option, Python (v2.5+) must be installed.
-Python is available on nearly all unices.
-
 
 Usage
 -----
