@@ -25,7 +25,7 @@
 
 TRACK_DIR=/var/lib/cfgtrack/tracking
 ARCHIVE_DIR=/var/lib/cfgtrack/archive
-VERSION=0.1
+VERSION="%%VERSION%%"
 AUTHOR="Ferry Boender <ferry.boender@gmail.com>"
 
 #

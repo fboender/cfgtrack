@@ -25,6 +25,8 @@ release: release_deb
 	cp README.md $(PROG)-$(REL_VERSION)/
 	cp contrib/release_Makefile $(PROG)-$(REL_VERSION)/Makefile
 
+	# Bump version numbers
+	find $(PROG)-$(REL_VERSION)/ -type f -print0 | xargs -0 sed -i "s/%%VERSION%%/$(REL_VERSION)/g" 
 	zip -r $(PROG)-$(REL_VERSION).zip $(PROG)-$(REL_VERSION)
 	tar -vczf $(PROG)-$(REL_VERSION).tar.gz  $(PROG)-$(REL_VERSION)
 
