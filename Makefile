@@ -11,7 +11,9 @@ uninstall:
 	rm /usr/bin/cfgtrack
 	echo "To remove configuration for cfgtrack, rm -rf /var/lib/cfgtrack/"
 
-release: release_deb
+release: release_src release_deb release_rpm
+
+release_src:
 	@echo "Making release for version $(REL_VERSION)"
 
 	@if [ -z "$(REL_VERSION)" ]; then echo "REL_VERSION required"; exit 1; fi
