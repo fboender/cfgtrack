@@ -18,6 +18,7 @@ release_src:
 
 	@if [ -z "$(REL_VERSION)" ]; then echo "REL_VERSION required"; exit 1; fi
 
+	# Prepare source
 	rm -rf $(PROG)-$(REL_VERSION)
 	mkdir $(PROG)-$(REL_VERSION)
 	cp src/cfgtrack $(PROG)-$(REL_VERSION)/
@@ -29,6 +30,8 @@ release_src:
 
 	# Bump version numbers
 	find $(PROG)-$(REL_VERSION)/ -type f -print0 | xargs -0 sed -i "s/%%VERSION%%/$(REL_VERSION)/g" 
+
+	# Create archives
 	zip -r $(PROG)-$(REL_VERSION).zip $(PROG)-$(REL_VERSION)
 	tar -vczf $(PROG)-$(REL_VERSION).tar.gz  $(PROG)-$(REL_VERSION)
 
@@ -50,9 +53,11 @@ release_deb:
 	# Bump version numbers
 	find rel_deb/ -type f -print0 | xargs -0 sed -i "s/%%VERSION%%/$(REL_VERSION)/g" 
 
+	# Create debian pacakge
 	fakeroot dpkg-deb --build rel_deb > /dev/null
 	mv rel_deb.deb $(PROG)-$(REL_VERSION).deb
 
+	# Cleanup
 clean:
 	rm -rf *.tar.gz
 	rm -rf *.zip
