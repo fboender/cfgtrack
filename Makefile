@@ -35,6 +35,9 @@ release_src:
 	zip -r $(PROG)-$(REL_VERSION).zip $(PROG)-$(REL_VERSION)
 	tar -vczf $(PROG)-$(REL_VERSION).tar.gz  $(PROG)-$(REL_VERSION)
 
+	# Cleanup
+	rm -rf $(PROG)-$(REL_VERSION)
+
 release_deb:
 	@if [ -z "$(REL_VERSION)" ]; then echo "REL_VERSION required"; exit 1; fi
 
@@ -58,6 +61,11 @@ release_deb:
 	mv rel_deb.deb $(PROG)-$(REL_VERSION).deb
 
 	# Cleanup
+	rm -rf rel_deb
+
+release_rpm: release_deb
+	alien -r cfgtrack-$(REL_VERSION).deb
+
 clean:
 	rm -rf *.tar.gz
 	rm -rf *.zip
