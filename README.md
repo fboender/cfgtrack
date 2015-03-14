@@ -1,6 +1,9 @@
 cfgtrack
 ========
 
+Download: https://github.com/fboender/cfgtrack/releases/
+
+
 About
 -----
 
@@ -51,7 +54,7 @@ If you want to to use the mail function (-m/--mail), you'll need Python.
 
 ### Debian / Ubuntu / Linux Mint installation
 
-1. Download the .deb file: 
+1. Download the .deb file from https://github.com/fboender/cfgtrack/releases/
 2. Install the package: `sudo dpkg -i cfgtrack*.deb`
 3. To uninstall: `apt-get purge cfgtrack`
 
@@ -60,7 +63,7 @@ Python is available on nearly all unices.
 
 ### RedHat / Centos / RPM-based
 
-1. Download the .rpm file
+1. Download the .rpm file from https://github.com/fboender/cfgtrack/releases/
 2. Install the package: `sudo rpm -i cfgtrack*.rpm`
 
 If you want to use the mail (-m) option, Python (v2.5+) must be installed.
@@ -68,7 +71,7 @@ Python is available on nearly all unices.
 
 ### Manual install
 
-1. Download the .tar.gz file
+1. Download the .tar.gz or .zip file from https://github.com/fboender/cfgtrack/releases/
 2. Unpack it with `tar -vxzf cfgtrack-*.tar.gz`
 3. Change to the cfgtrack directory: `cd cfgtrack*`
 4. Install it on your system with `sudo make install`
