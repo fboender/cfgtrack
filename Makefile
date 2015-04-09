@@ -1,9 +1,9 @@
 PROG=cfgtrack
 
 install:
-	cp cfgtrack /usr/bin/cfgtrack
-	cp cfgtrack_mail /usr/bin/cfgtrack_mail
-	gzip -c cfgtrack.1 > /usr/share/man/man1/cfgtrack.1.gz
+	cp src/cfgtrack /usr/bin/cfgtrack
+	cp src/cfgtrack_mail /usr/bin/cfgtrack_mail
+	gzip -c src/cfgtrack.1 > /usr/share/man/man1/cfgtrack.1.gz
 
 uninstall:
 	rm /usr/share/man/man1/cfgtrack.1.gz
