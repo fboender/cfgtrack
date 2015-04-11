@@ -3,6 +3,8 @@ cfgtrack
 
 Download: https://github.com/fboender/cfgtrack/releases/
 
+Packages available for: Debian, Ubuntu, Redhat, .tar.gz.
+
 
 About
 -----
@@ -111,5 +113,15 @@ To stop tracking changes to an entire tree of files:
 To stop tracking changes to a single file
 
     $ sudo cfgtrack untrack /etc/apt/apt.conf.d/50unattended-upgrade
+
+To get a daily report via email of changes:
+
+    $ vi /etc/cron.daily/scriptform
+    #!/bin/sh
+    
+    /usr/bin/cfgtrack -a -m admin@foocorp.com compare >/dev/null
+
+    $ chmod 755 /etc/cron.daily/scriptform
+
 
 See also `man 1 cfgtrack`
