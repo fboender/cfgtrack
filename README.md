@@ -23,6 +23,12 @@ Limitations (otherwise known as "features")
 - Does not track who made the change (future?)
 - Does not track additions to directories (but does track removals of tracked
   files) (future?).
+- It's not a configuration management system.
+- It's not an intrusion detection system.
+
+cfgtrack is useful when you want to stay informed about changes happening to
+files by third-parties or automatic updates.
+
 
 Example:
 
