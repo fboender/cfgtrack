@@ -120,7 +120,7 @@ To stop tracking changes to a single file
 
     $ sudo cfgtrack untrack /etc/apt/apt.conf.d/50unattended-upgrade
 
-To get a daily report via email of changes:
+To get a daily report via email of changes and put the resulting diffs in the archive:
 
     $ vi /etc/cron.daily/scriptform
     #!/bin/sh
