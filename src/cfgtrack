@@ -132,7 +132,7 @@ compare() {
             BODY="cfgtrack running at $(hostname -f) has found changes in tracked\n"
             BODY="${BODY}files.\n\nPlease see the attached file for a list of changes \n"
             BODY="${BODY}in Diff format\n"
-            echo -e $BODY | $(dirname $0)/cfgtrack_mail -t $MAIL_TO -s "cfgtrack @ $(hostname -f): Changes found" /tmp/$ATTACH_FNAME 
+            printf $BODY | $(dirname $0)/cfgtrack_mail -t $MAIL_TO -s "cfgtrack @ $(hostname -f): Changes found" /tmp/$ATTACH_FNAME 
             rm /tmp/$ATTACH_FNAME
         fi
 
