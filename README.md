@@ -125,7 +125,7 @@ To get a daily report via email of changes and put the resulting diffs in the ar
     $ vi /etc/cron.daily/scriptform
     #!/bin/sh
     
-    /usr/bin/cfgtrack -a -m admin@foocorp.com compare >/dev/null
+    /usr/bin/cfgtrack -a -s -m admin@foocorp.com compare >/dev/null
 
     $ chmod 755 /etc/cron.daily/scriptform
 

@@ -33,12 +33,13 @@ AUTHOR="Ferry Boender <ferry.boender@gmail.com>"
 #
 usage() {
     echo "cfgtrack - Track and report diffs in files between invocations\n" >&2
-    echo "$0 list                        # List files being tracked" >&2
-    echo "$0 track <path>                # Start tracking file(s in dir)" >&2
-    echo "$0 untrack <path>              # Stop tracking file(s in dir)" >&2
-    echo "$0 [-a] [-m <email>] compare   # Compare tracked files" >&2
+    echo "$0 list                             # List files being tracked" >&2
+    echo "$0 track <path>                     # Start tracking file(s in dir)" >&2
+    echo "$0 untrack <path>                   # Stop tracking file(s in dir)" >&2
+    echo "$0 [-a] [-s] [-m <email>] compare   # Compare tracked files" >&2
     echo >&2
     echo "  -a, --archive       Store diffs in an archive dir" >&2
+    echo "  -s, --silent        Don't output diff to stdout" >&2
     echo "  -m, --mail <email>  Send diffs to email address" >&2
     echo >&2
     echo "By $AUTHOR, version: $VERSION. Released under the MIT license." >&2
