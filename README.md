@@ -110,7 +110,7 @@ To show differences between the last time you ran 'compare' and now:
 
 To send an email upon changes:
 
-    $ sudo --silent --mail admin@example.com compare
+    $ sudo cfgtrack --silent --mail admin@example.com compare
 
 To stop tracking changes to an entire tree of files:
 
