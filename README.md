@@ -11,11 +11,11 @@ About
 
 cfgtrack tracks and reports diffs in files between invocations.
 
-It lets you add directories and files to a tracking list by keeping a seperate
-copy of the file in a tracking directory. When invoked with the 'compare'
-command, it outputs a Diff of any changes made in the configuration file since
-the last time you invoked with the 'compare' command. It then automatically
-updates the tracked file. It can also send an email with the diff attached.
+It lets you add directories and files to a tracking list by keeping a separate
+copy of the file in a tracking directory. When invoked with the '`compare`'
+command, it outputs a Diff of any changes made in the files since the last
+time you invoked with the '`compare`' command. It then automatically updates the
+tracked file. It can also send an email with the diff attached.
 
 Limitations (otherwise known as "features")
 
@@ -100,9 +100,9 @@ To track a single file:
 
     $ sudo cfgtrack track /etc/apt/apt.conf.d/50unattended-upgrades
 
-Note that cfgtrack keeps a copy of the files that are tracked in a seperate dir.
-If you track large directories (which you really shouldn't), this will take up
-twice as much space.
+Note that cfgtrack keeps a copy of the files that are tracked in a separate
+directory.  If you track large directories (which you really shouldn't), this
+will take up twice as much space.
 
 To show differences between the last time you ran 'compare' and now:
 
