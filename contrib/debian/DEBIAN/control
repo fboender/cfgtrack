@@ -1,6 +1,6 @@
 Package: cfgtrack
 Version: %%VERSION%%
-Maintainer: Ferry Boender <ferry.boender@gmail.com>
+Maintainer: Ferry Boender <ferry.boender@electricmonk.nl>
 Section: utils
 Priority: optional
 Architecture: all

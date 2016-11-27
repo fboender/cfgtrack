@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #
-# Copyright (c) 2015 Ferry Boender <ferry.boender@gmail.com>
+# Copyright (c) 2015 Ferry Boender <ferry.boender@electricmonk.nl>
 #
 # Released under the MIT license:
 #
@@ -26,7 +26,7 @@
 TRACK_DIR=/var/lib/cfgtrack/tracking
 ARCHIVE_DIR=/var/lib/cfgtrack/archive
 VERSION="%%VERSION%%"
-AUTHOR="Ferry Boender <ferry.boender@gmail.com>"
+AUTHOR="Ferry Boender <ferry.boender@electricmonk.nl>"
 
 #
 # Usage
