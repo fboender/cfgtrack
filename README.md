@@ -122,12 +122,12 @@ To stop tracking changes to a single file
 
 To get a daily report via email of changes and put the resulting diffs in the archive:
 
-    $ vi /etc/cron.daily/scriptform
+    $ vi /etc/cron.daily/cfgtrack
     #!/bin/sh
     
     /usr/bin/cfgtrack -a -s -m admin@foocorp.com compare >/dev/null
 
-    $ chmod 755 /etc/cron.daily/scriptform
+    $ chmod 755 /etc/cron.daily/cfgtrack
 
 
 See also `man 1 cfgtrack`
