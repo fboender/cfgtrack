@@ -67,7 +67,7 @@ release_rpm: release_deb
 	alien -r -g -v cfgtrack-$(REL_VERSION).deb
 	sed -i 's#%dir "/"##' cfgtrack-$(REL_VERSION)/cfgtrack-$(REL_VERSION)-2.spec
 	sed -i 's#%dir "/usr/bin/"##' cfgtrack-$(REL_VERSION)/cfgtrack-$(REL_VERSION)-2.spec
-	cd cfgtrack-$(REL_VERSION) && rpmbuild --target=noarch --buildroot $(shell readlink -f cfgtrack-$(REL_VERSION)) -bb cfgtrack-9.99-2.spec 
+	cd cfgtrack-$(REL_VERSION) && rpmbuild --target=noarch --buildroot $(shell readlink -f cfgtrack-$(REL_VERSION)) -bb cfgtrack-$(REL_VERSION)-2.spec 
 
 clean:
 	rm -rf *.tar.gz
